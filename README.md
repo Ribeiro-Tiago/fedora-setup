@@ -34,7 +34,7 @@ Install required tools:
 Files created:
 
 backups/  
-├── dnf-packages.txt  
+├── dnf-user.txt  
 ├── flatpak.txt  
 ├── repos.txt  
 ├── services.txt  
