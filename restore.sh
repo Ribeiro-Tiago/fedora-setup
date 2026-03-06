@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXPORT_DIR="./files"
+EXPORT_DIR="./backups"
 
 # Ensure dialog exists
 if ! command -v dialog &>/dev/null; then
