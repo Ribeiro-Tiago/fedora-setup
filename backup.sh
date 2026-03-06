@@ -6,7 +6,7 @@ TMPFILE=$(mktemp)
 # Ensure dialog is installed
 if ! command -v dialog &>/dev/null; then
   echo "Installing dialog..."
-  sudo dnf install -y dialog
+  sudo dnf install -y dialog jq
 fi
 
 mkdir -p "$EXPORT_DIR"
@@ -37,7 +37,7 @@ function save_list {
 ########################################
 function backup_dnf {
   TMP=$(mktemp)
-  dnf repoquery --userinstalled --qf "%{name}" > "$TMP"
+  dnf repoquery --userinstalled --qf "%{name} \n" > "$TMP"
   save_list "$EXPORT_DIR/dnf-user.txt" "$TMP"
   echo "DNF packages backed up."
 }
