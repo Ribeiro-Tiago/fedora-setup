@@ -33,13 +33,13 @@ Install required tools:
 
 Files created:
 
-backups/
-├── dnf-user.txt
-├── flatpak.txt
-├── repos.txt
-├── services.txt
-├── etc-config.tar.gz
-└── dotfiles/
+backups/  
+├── dnf-packages.txt  
+├── flatpak.txt  
+├── repos.txt  
+├── services.txt  
+├── etc-config.tar.gz  
+└── dotfiles/  
 
 ---
 
