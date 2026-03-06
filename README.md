@@ -69,8 +69,5 @@ backups/
 
 1. **Backup** old machine: `./backup.sh`
 2. Copy `backups/` to new machine along with `restore.sh`.
-3. **Restore** on new machine:
-
-./fedora-setup-wizard.sh
-
+3. **Restore** on new machine: ./restore.sh`
 4. Enjoy your replicated Fedora environment!
