@@ -1,7 +1,0 @@
-com.discordapp.Discord
-com.getpostman.Postman
-com.jetbrains.IntelliJ-IDEA-Community
-com.rtosta.zapzap
-com.spotify.Client
-com.visualstudio.code
-rest.insomnia.Insomnia
