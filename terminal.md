@@ -22,7 +22,44 @@ gsettings set org.gnome.desktop.default-applications.terminal exec-arg ''
 
 ### Configs
 
-Append to `~/.zshrc`
+Terminal configs
+
+```bash
+nano ~/.alacritty.toml
+```
+
+```bash
+[general]
+live_config_reload = true
+working_directory = "/home/tiago/Documents/ssr"
+
+[window]
+padding = { x = 12, y = 12 }
+dynamic_padding = true
+dynamic_title = true
+
+[scrolling]
+history = 100000
+
+[selection]
+save_to_clipboard = true
+
+[cursor]
+style = "On"
+
+[terminal]
+shell = "/bin/zsh"
+
+[font.normal]
+family = "MesloLGS NF"
+
+[keyboard]
+bindings = [
+  { key = "V", mods = "Control", action = "Paste" }
+]
+```
+
+zsh + alacritty keybinds, append to `~/.zshrc`
 
 ```bash
 ##############################
