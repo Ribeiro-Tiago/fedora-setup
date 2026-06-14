@@ -141,6 +141,37 @@ WantedBy=default.target
 systemctl --user enable --now brscan-pdf-watch
 ```
 
+
+## Brother scanner: auto start wireless connectivity on startup
+
+### Create service
+
+```bash
+sudo nano ~/.config/systemd/user/brscan-autostart.service
+```
+
+```bash
+[Unit]
+Description=Auto start brother brscan-skey service
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/brscan-skey
+Restart=always
+
+[Install]
+WantedBy=default.target
+```
+
+### Autostart said service
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable brscan-autostart.service
+systemctl --user start brscan-autostart.service
+```
+
+
 ## Auto force refresh outdated packages in discover
 
 ### Create service
