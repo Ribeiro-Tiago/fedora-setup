@@ -12,21 +12,21 @@ sudo dnf install inotify-tools ffmpeg -y
 
 ```bash
 mkdir -p ~/bin
-nano ~/bin/webm-to-mp4-watcher.sh
+sudo nano ~/bin/webm-to-mp4-watcher.sh
 ```
 
 ```bash
-#!/bin/sh
+#!/usr/bin/bash
 
-WATCH_DIR="$HOME/Videos/Screencasts"
+WATCH_DIR="home/<user>/Videos/Screencasts"
 
-inotifywait -m -e close_write --format '%w%f' "$WATCH_DIR" |
+/usr/bin/inotifywait -m -e close_write --format '%w%f' "$WATCH_DIR" |
 while read file; do
   [[ "$file" != *.webm ]] && continue
 
   sleep 1
 
-  ffmpeg -i "$file" \
+  /usr/bin/ffmpeg -i "$file" \
     -c:v libx264 \
     -preset fast \
     -crf 28 \
@@ -45,7 +45,7 @@ chmod +x ~/bin/webm-to-mp4-watcher.sh
 ### Create service
 
 ```bash
-nano ~/.config/systemd/user/webm-watch.service
+sudo nano ~/.config/systemd/user/webm-to-mp4.service
 ```
 
 ```bash
@@ -53,7 +53,7 @@ nano ~/.config/systemd/user/webm-watch.service
 Description=WebM to MP4 watcher
 
 [Service]
-ExecStart=~/.local/bin/webm-to-mp4-watcher.sh
+ExecStart=/home/<user>/bin/webm-to-mp4-watcher.sh
 Restart=always
 
 [Install]
@@ -63,7 +63,9 @@ WantedBy=default.target
 ### Autostart said service
 
 ```bash
-systemctl --user enable --now webm-watch
+systemctl --user daemon-reload
+systemctl --user enable webm-to-mp4.service
+systemctl --user start webm-to-mp4.service
 ```
 
 ---
@@ -80,17 +82,17 @@ sudo dnf install inotify-tools img2pdf -y
 
 ```bash
 mkdir -p ~/bin
-nano ~/bin/brscan-pdf-watch.sh
+sudo nano ~/bin/brscan-tif-to-pdf.sh
 ```
 
 ```bash
-#!/bin/bash
+#!/usr/bin/bash
 
-WATCH_DIR="$HOME/brscan"
+WATCH_DIR="home/<user>/brscan"
 
 mkdir -p "$WATCH_DIR"
 
-inotifywait -m -e close_write "$WATCH_DIR" |
+/usr/bin/inotifywait -m -e close_write "$WATCH_DIR" |
 while read path action file; do
     case "$file" in
         *.tif|*.tiff)
@@ -98,7 +100,7 @@ while read path action file; do
             INPUT="$path$file"
             OUTPUT="${INPUT%.*}.pdf"
 
-            img2pdf "$INPUT" -o "$OUTPUT"
+            /usr/bin/img2pdf "$INPUT" -o "$OUTPUT"
 
             if [ $? -eq 0 ]; then
                 rm -f "$INPUT"
@@ -114,13 +116,13 @@ done
 ### Make watcher executable
 
 ```bash
-chmod +x ~/bin/brscan-pdf-watch.sh
+chmod +x ~/bin/brscan-tif-to-pdf.sh
 ```
 
 ### Create service
 
 ```bash
-nano ~/.config/systemd/user/brscan-pdf-watch.service
+sudo nano ~/.config/systemd/user/brscan-tif-to-pdf.service
 ```
 
 ```bash
@@ -128,7 +130,7 @@ nano ~/.config/systemd/user/brscan-pdf-watch.service
 Description=Brother Scan TIFF to PDF Converter
 
 [Service]
-ExecStart=%h/bin/brscan-pdf-watch.sh
+ExecStart=%h/bin/brscan-tif-to-pdf.sh
 Restart=always
 
 [Install]
@@ -138,9 +140,10 @@ WantedBy=default.target
 ### Autostart said service
 
 ```bash
-systemctl --user enable --now brscan-pdf-watch
+systemctl --user daemon-reload
+systemctl --user enable brscan-tif-to-pdf.service
+systemctl --user start brscan-tif-to-pdf.service
 ```
-
 
 ## Brother scanner: auto start wireless connectivity on startup
 
@@ -170,7 +173,6 @@ systemctl --user daemon-reload
 systemctl --user enable brscan-autostart.service
 systemctl --user start brscan-autostart.service
 ```
-
 
 ## Auto force refresh outdated packages in discover
 
@@ -211,6 +213,7 @@ WantedBy=timers.target
 ### Enable service
 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable --now pkcon-refresh.timer
+systemctl daemon-reload
+systemctl enable pkcon-refresh.timer
+systemctl start pkcon-refresh.timer
 ```
