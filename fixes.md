@@ -38,3 +38,10 @@ sudo chmod +x /usr/bin/kde-open
 ### Deadkeys not being recognized in apps
 
 Run apps with `--ozone-platform=x11`
+
+
+### Playwright dependencies
+
+```bash
+dnf install -y icu libjpeg-turbo woff2 gstreamer1-libav
+```
